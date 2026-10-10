@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriSaarthi | Farming Assistant</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <aside class="sidebar">
+        <a href="/" class="brand">
+            <span class="brand-icon">A</span>
+            <span>AgriSaarthi</span>
+        </a>
+
+        <a href="/" class="new-chat">+ New conversation</a>
+
+        <div class="sidebar-section">
+            <p class="section-label">MENU</p>
+            <a href="/" class="nav-link active">Chat assistant</a>
+            <a th:href="@{/history}" class="nav-link">Conversation history</a>
+        </div>
+
+        <div class="sidebar-note">
+            <strong>Smart farming support</strong>
+            <p>Ask questions about crops, soil, irrigation and farming practices.</p>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">AGRICULTURE ADVISORY</p>
+                <h1>Farmer assistance</h1>
+            </div>
+
+            <label class="language-control">
+                <span>Language</span>
+                <select id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="ta">தமிழ்</option>
+                </select>
+            </label>
+        </header>
+
+        <section class="chat-section">
+
+            <div class="welcome" id="welcome">
+                <div class="welcome-icon">✳</div>
+                <h2 id="welcomeTitle">How can we help your farm?</h2>
+                <p id="welcomeText">
+                    Ask a farming question to receive practical guidance.
+                </p>
+            </div>
+
+            <div class="suggestions" id="suggestions">
+                <button class="suggestion" data-question="What fertilizer is suitable for paddy?">
+                    <span>Crop nutrition</span>
+                    What fertilizer is suitable for paddy?
+                </button>
+
+                <button class="suggestion" data-question="How can I identify common tomato pests?">
+                    <span>Pest management</span>
+                    How can I identify tomato pests?
+                </button>
+
+                <button class="suggestion" data-question="How should I manage irrigation during heavy rainfall?">
+                    <span>Water management</span>
+                    Irrigation during heavy rainfall
+                </button>
+            </div>
+
+            <div id="chatMessages" class="chat-messages"
+                 aria-live="polite" aria-label="Conversation">
+            </div>
+
+            <p id="statusMessage" class="status-message" role="status"></p>
+
+            <form id="chatForm" class="chat-form">
+                <label class="sr-only" for="messageInput">
+                    Enter your farming question
+                </label>
+
+                <textarea
+                    id="messageInput"
+                    rows="2"
+                    maxlength="2000"
+                    placeholder="Ask your farming question..."
+                    required
+                ></textarea>
+
+                <button id="sendButton" type="submit">Send ↑</button>
+            </form>
+
+            <p class="form-note">
+                Advice and references will be displayed when the advisory service responds.
+            </p>
+
+        </section>
+
+        <footer class="footer">
+            AgriSaarthi · Smart Agriculture Advisory System
+        </footer>
+
+    </main>
+</div>
+
+<script th:src="@{/js/language.js}" defer></script>
+<script th:src="@{/js/chat.js}" defer></script>
+
+</body>
+</html>

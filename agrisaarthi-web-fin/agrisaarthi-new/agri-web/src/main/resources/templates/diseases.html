@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Detection | AgriSaarthi</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .disease-page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 36px 28px;
+            color: #153f30;
+        }
+
+        .disease-heading {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .disease-heading h1 {
+            font-size: clamp(28px, 4vw, 40px);
+            margin: 8px 0;
+        }
+
+        .disease-heading p,
+        .muted {
+            color: #64786d;
+            line-height: 1.65;
+        }
+
+        .eyebrow {
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #26734e;
+        }
+
+        .disease-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(300px, .9fr);
+            gap: 22px;
+        }
+
+        .disease-card {
+            background: white;
+            border: 1px solid #dfe8df;
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 6px 24px #173f3008;
+        }
+
+        .upload-zone {
+            border: 2px dashed #b8cdbb;
+            border-radius: 15px;
+            background: #f7faf6;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            display: block;
+        }
+
+        .upload-zone:hover,
+        .upload-zone:focus-within {
+            border-color: #26734e;
+            background: #eff7ef;
+        }
+
+        .upload-icon {
+            font-size: 36px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .preview {
+            display: none;
+            max-width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin: 18px auto 0;
+        }
+
+        .disease-btn {
+            border: 0;
+            border-radius: 10px;
+            padding: 14px 18px;
+            background: #206b49;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        .disease-btn:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+        }
+
+        .secondary-btn {
+            background: #edf4ed;
+            color: #20583c;
+        }
+
+        .status-box {
+            margin-top: 16px;
+            padding: 13px;
+            border-radius: 10px;
+            background: #f3f8f2;
+            color: #426452;
+            line-height: 1.5;
+        }
+
+        .error-box {
+            background: #fff1ed;
+            color: #a43f2d;
+        }
+
+        .result-hidden {
+            display: none;
+        }
+
+        .result-label {
+            font-size: 12px;
+            letter-spacing: 1px;
+            font-weight: 800;
+            color: #26734e;
+        }
+
+        .result-name {
+            font-size: 25px;
+            line-height: 1.3;
+            margin: 8px 0 14px;
+            overflow-wrap: anywhere;
+        }
+
+        .confidence-track {
+            height: 9px;
+            background: #e8eee7;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            width: 0;
+            background: #319466;
+            transition: width .3s;
+        }
+
+        .advisory-block {
+            padding: 15px;
+            background: #f7faf6;
+            border-radius: 12px;
+            margin-top: 14px;
+        }
+
+        .advisory-block h3 {
+            font-size: 15px;
+            margin: 0 0 8px;
+        }
+
+        .advisory-block p {
+            white-space: pre-line;
+            line-height: 1.7;
+            color: #52685a;
+            margin: 0;
+        }
+
+        .prediction-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e7eee7;
+        }
+
+        .small-note {
+            font-size: 12px;
+            color: #718176;
+            line-height: 1.6;
+            margin-top: 18px;
+        }
+
+        @media (max-width: 760px) {
+            .disease-page {
+                padding: 22px 15px;
+            }
+
+            .disease-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .disease-heading {
+                align-items: flex-start;
+            }
+
+            .disease-card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+        <a class="brand" th:href="@{/}">
+            <span class="brand-mark">✳</span>
+            <span>Agri<span class="brand-light">Saarthi</span><small>FARMING COMPANION</small></span>
+        </a>
+        <a class="primary-nav-button" th:href="@{/assistant}"><span>＋</span> Ask AgriSaarthi</a>
+        <p class="nav-caption">WORKSPACE</p>
+        <nav class="nav-list" aria-label="Main navigation">
+            <a class="nav-item" th:href="@{/}"><span>⌂</span> Overview</a>
+            <a class="nav-item" th:href="@{/crops}"><span>♧</span> Crop screening</a>
+            <a class="nav-item active" th:href="@{/diseases}" aria-current="page"><span>◕</span> Plant symptoms</a>
+            <a class="nav-item" th:href="@{/weather}"><span>☼</span> Weather checklist</a>
+            <a class="nav-item" th:href="@{/history}"><span>◷</span> My activity</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="help-icon">i</div>
+            <strong>Plant health support</strong>
+            <p>Use symptom notes as a first check, not a confirmed diagnosis.</p>
+            <a th:href="@{/assistant}">Ask the farm assistant →</a>
+        </div>
+        <div class="sidebar-footer"><span class="status-dot"></span> Local symptom guide</div>
+    </aside>
+    <main class="main-area">
+        <header class="topbar">
+            <button class="mobile-menu" id="menuToggle" type="button" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false">☰</button>
+            <div class="breadcrumb">Workspace <span>/</span> <strong>Plant symptoms</strong></div>
+            <div class="topbar-actions"><a class="button button-outline button-small" th:href="@{/}">Home</a><label class="language-control"><span class="sr-only">Language</span><select id="languageSelect" aria-label="Language"><option value="en">English</option><option value="ta">தமிழ்</option></select></label></div>
+        </header>
+    <div class="disease-page">
+        <!-- Page Header -->
+        <header class="disease-heading">
+            <div>
+                <div class="eyebrow">PLANT HEALTH SUPPORT</div>
+                <h1>Plant disease detection</h1>
+                <p>Upload a clear leaf photo to receive an AI prediction and available guidance.</p>
+            </div>
+            <span class="eyebrow">AI SCREENING</span>
+        </header>
+
+        <div class="disease-grid">
+            <!-- Upload Section -->
+            <section class="disease-card">
+                <h2>Upload a leaf image</h2>
+                <p class="muted">Choose a well-lit photo with the affected leaf clearly visible.</p>
+
+                <label class="upload-zone" for="leafImage" id="dropZone">
+                    <span class="upload-icon">🌿</span>
+                    <strong id="uploadTitle">Choose an image or drop it here</strong>
+                    <p class="muted">JPG, JPEG, PNG, WEBP or BMP · Maximum 10 MB</p>
+                    <input 
+                        id="leafImage" 
+                        type="file"
+                        accept=".jpg,.jpeg,.png,.webp,.bmp,image/jpeg,image/png,image/webp,image/bmp"
+                        hidden>
+                    <img id="imagePreview" class="preview" alt="Selected leaf preview">
+                </label>
+
+                <button id="analyseBtn" class="disease-btn" type="button" disabled>
+                    Analyse leaf image
+                </button>
+                <button id="resetBtn" class="disease-btn secondary-btn" type="button">
+                    Choose another image
+                </button>
+
+                <div id="statusBox" class="status-box" role="status" aria-live="polite">
+                    Select a leaf image to begin.
+                </div>
+
+                <p class="small-note">
+                    Image preview runs locally in your browser. This build has no
+                    disease model configured, so it does not upload or diagnose
+                    your image. Use only images you have permission to view.
+                </p>
+            </section>
+
+            <!-- Results Section -->
+            <section class="disease-card" aria-labelledby="resultHeading">
+                <div class="eyebrow">MODEL OUTPUT</div>
+                <h2 id="resultHeading">Analysis results</h2>
+                <p id="resultIntro" class="muted">
+                    Your prediction, confidence and available advisory will appear here.
+                </p>
+
+                <div id="resultPanel" class="result-hidden">
+                    <div class="result-label">PREDICTED CONDITION</div>
+                    <h3 id="diseaseName" class="result-name"></h3>
+
+                    <div class="muted">
+                        Model confidence: <strong id="confidenceText">—</strong>
+                    </div>
+                    <div class="confidence-track" aria-hidden="true">
+                        <div id="confidenceFill" class="confidence-fill"></div>
+                    </div>
+
+                    <div class="advisory-block">
+                        <h3>Possible cause</h3>
+                        <p id="causeText"></p>
+                    </div>
+
+                    <div class="advisory-block">
+                        <h3>Suggested care / solution</h3>
+                        <p id="solutionText"></p>
+                    </div>
+
+                    <div class="advisory-block">
+                        <h3>Other model predictions</h3>
+                        <div id="alternatives"></div>
+                    </div>
+
+                    <div id="healthNotice" class="status-box"></div>
+
+                    <p class="small-note">
+                        This is an AI screening result, not a confirmed diagnosis.
+                        Confidence is not the same as diagnostic accuracy. Confirm
+                        uncertain results with a qualified local agricultural adviser
+                        before applying pesticides or other treatments.
+                    </p>
+                </div>
+            </section>
+        </div>
+    </div>
+    <footer class="page-footer">AgriSaarthi · Symptom guidance only; confirm uncertain cases with your local agricultural adviser.</footer>
+    </main>
+</div>
+
+    <script th:src="@{/js/language.js}" defer></script>
+    <script th:src="@{/js/diseases.js}" defer></script>
+    <script th:src="@{/js/dashboard.js}" defer></script>
+</body>
+</html>

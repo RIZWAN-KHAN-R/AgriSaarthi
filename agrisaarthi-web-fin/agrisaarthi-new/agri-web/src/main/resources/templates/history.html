@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Activity | AgriSaarthi</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+        <a class="brand" th:href="@{/}"><span class="brand-mark">✳</span><span>Agri<span class="brand-light">Saarthi</span><small>FARMING COMPANION</small></span></a>
+        <a class="primary-nav-button" th:href="@{/assistant}"><span>＋</span> Ask AgriSaarthi</a>
+        <p class="nav-caption">WORKSPACE</p>
+        <nav class="nav-list" aria-label="Main navigation">
+            <a class="nav-item" th:href="@{/}"><span>⌂</span> Overview</a>
+            <a class="nav-item" th:href="@{/crops}"><span>♧</span> Crop screening</a>
+            <a class="nav-item" th:href="@{/diseases}"><span>◕</span> Plant symptoms</a>
+            <a class="nav-item" th:href="@{/weather}"><span>☼</span> Weather checklist</a>
+            <a class="nav-item active" th:href="@{/history}"><span>◷</span> My activity</a>
+        </nav>
+        <div class="sidebar-bottom"><strong>Private to this browser</strong><p>Activity is saved locally and is not synced to a server.</p></div>
+        <div class="sidebar-footer"><span class="status-dot"></span> Local activity log</div>
+    </aside>
+    <main class="main-area">
+        <header class="topbar"><button class="mobile-menu" id="menuToggle" aria-label="Open navigation">☰</button><div class="breadcrumb">Workspace <span>/</span> <strong>My activity</strong></div><div class="topbar-actions"><button id="clearActivity" class="button button-outline button-small" type="button">Clear activity</button><label class="language-control"><span class="sr-only">Language</span><select id="languageSelect" aria-label="Language"><option value="en">English</option><option value="ta">தமிழ்</option></select></label></div></header>
+        <div class="page-content">
+            <div class="page-title"><div><p class="eyebrow">YOUR FARM WORKSPACE</p><h1>Recent activity</h1><p>Review assistant questions, crop screening, symptom checks, and saved notes.</p></div><div class="page-title-icon icon-green">◷</div></div>
+            <section class="panel activity-panel">
+                <p id="activityEmpty" class="empty-state">No activity saved yet. Your activity will appear here as you use the tools.</p>
+                <div id="activityList" class="activity-list"></div>
+                <p id="activityStatus" class="status-message" role="status"></p>
+            </section>
+            <p class="privacy-note">Activity is stored in this browser's local storage. Clearing browser data will remove it.</p>
+            <footer class="page-footer">AgriSaarthi · Your activity stays on this device</footer>
+        </div>
+    </main>
+</div>
+<script th:src="@{/js/language.js}" defer></script><script th:src="@{/js/activity.js}" defer></script><script th:src="@{/js/history.js}" defer></script><script th:src="@{/js/dashboard.js}" defer></script>
+</body>
+</html>

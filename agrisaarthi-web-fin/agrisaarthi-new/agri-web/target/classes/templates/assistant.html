@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#174c38">
+    <title>Farm Assistant | AgriSaarthi</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+        <a class="brand" th:href="@{/}"><span class="brand-mark">✳</span><span>Agri<span class="brand-light">Saarthi</span><small>FARMING COMPANION</small></span></a>
+        <a class="primary-nav-button new-chat" href="#"><span>＋</span> New conversation</a>
+        <p class="nav-caption">WORKSPACE</p>
+        <nav class="nav-list" aria-label="Main navigation">
+            <a class="nav-item" th:href="@{/}"><span>⌂</span> Overview</a>
+            <a class="nav-item" th:href="@{/crops}"><span>♧</span> Crop screening</a>
+            <a class="nav-item" th:href="@{/diseases}"><span>◕</span> Plant symptoms</a>
+            <a class="nav-item" th:href="@{/weather}"><span>☼</span> Weather checklist</a>
+            <a class="nav-item" th:href="@{/history}"><span>◷</span> My activity</a>
+        </nav>
+        <div class="sidebar-bottom"><div class="help-icon">i</div><strong>Local-first guidance</strong><p>Your questions are handled by this app. No external AI service or live forecast is required.</p></div>
+        <div class="sidebar-footer"><span class="status-dot"></span> Advisory service ready</div>
+    </aside>
+    <main class="main-area">
+        <header class="topbar">
+            <button class="mobile-menu" id="menuToggle" aria-label="Open navigation">☰</button>
+            <div class="breadcrumb">Workspace <span>/</span> <strong>Farm assistant</strong></div>
+            <div class="topbar-actions">
+                <label class="language-control"><span class="sr-only">Language</span><select id="languageSelect" aria-label="Language"><option value="en">English</option><option value="ta">தமிழ்</option></select></label>
+            </div>
+        </header>
+        <div class="page-content assistant-page">
+            <div class="page-title">
+                <div><p class="eyebrow">PRACTICAL FARM GUIDANCE</p><h1 id="welcomeTitle">Ask AgriSaarthi</h1><p id="welcomeText">Describe your farming question and get practical, offline guidance.</p></div>
+            </div>
+            <section class="chat-workspace panel" aria-label="Farm assistant conversation">
+                <div class="assistant-intro" id="welcome"><div class="assistant-orb">✳</div><h2>How can we help your farm?</h2><p>Choose a prompt or ask your own question. Please verify important decisions with local agricultural guidance.</p></div>
+                <div class="suggestions" id="suggestions">
+                    <button class="suggestion" data-question="What fertilizer is suitable for paddy?"><span>🌱 CROP NUTRITION</span>What fertilizer is suitable for paddy?</button>
+                    <button class="suggestion" data-question="How can I identify common tomato pests?"><span>🐛 PEST MANAGEMENT</span>How can I identify common tomato pests?</button>
+                    <button class="suggestion" data-question="How should I manage irrigation during heavy rainfall?"><span>💧 WATER MANAGEMENT</span>How should I manage irrigation during heavy rainfall?</button>
+                </div>
+                <div id="chatMessages" class="chat-messages" aria-live="polite" aria-label="Conversation"></div>
+                <p id="statusMessage" class="status-message" role="status"></p>
+                <form id="chatForm" class="chat-form">
+                    <label class="sr-only" for="messageInput">Enter your farming question</label>
+                    <textarea id="messageInput" rows="2" maxlength="2000" placeholder="Ask about crops, soil, irrigation or pests…" required></textarea>
+                    <div class="chat-form-actions">
+                        <button id="sendButton" class="button button-primary" type="submit">Send ↑</button>
+                    </div>
+                </form>
+                <p class="form-note">General guidance only; local climate, soil tests, crop stage, and product labels matter.</p>
+            </section>
+            <footer class="page-footer">AgriSaarthi · Practical tools for everyday farm decisions</footer>
+        </div>
+    </main>
+</div>
+<script th:src="@{/js/language.js}" defer></script>
+<script th:src="@{/js/activity.js}" defer></script>
+<script th:src="@{/js/chat.js}" defer></script>
+<script th:src="@{/js/dashboard.js}" defer></script>
+</body>
+</html>

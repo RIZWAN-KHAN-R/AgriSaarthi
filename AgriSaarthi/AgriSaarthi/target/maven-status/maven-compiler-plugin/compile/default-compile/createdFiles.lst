@@ -1,0 +1,11 @@
+com\Hack\AgriSaarthi\model\KnowledgeResponse$EvidenceItem.class
+com\Hack\AgriSaarthi\model\WeatherInfo.class
+com\Hack\AgriSaarthi\service\KnowledgeService.class
+com\Hack\AgriSaarthi\model\KnowledgeResponse.class
+com\Hack\AgriSaarthi\service\WeatherService.class
+com\Hack\AgriSaarthi\controller\KnowledgeController.class
+com\Hack\AgriSaarthi\AgriSaarthiApplication.class
+com\Hack\AgriSaarthi\service\KnowledgeService$Match.class
+com\Hack\AgriSaarthi\model\SourceReference.class
+com\Hack\AgriSaarthi\model\KnowledgeDocument.class
+com\Hack\AgriSaarthi\model\KnowledgeRequest.class
